@@ -1,0 +1,10 @@
+CMake Error at D:/ESP_IDF_5_4_2/frameworks/esp-idf-v5.4.2/tools/cmake/build.cmake:333 (message):
+  Failed to resolve component 'config_parameter' required by component
+  'can_protocol': component not registered.
+Call Stack (most recent call first):
+  D:/ESP_IDF_5_4_2/frameworks/esp-idf-v5.4.2/tools/cmake/build.cmake:377 (__build_resolve_and_add_req)
+  D:/ESP_IDF_5_4_2/frameworks/esp-idf-v5.4.2/tools/cmake/build.cmake:675 (__build_expand_requirements)
+  D:/ESP_IDF_5_4_2/frameworks/esp-idf-v5.4.2/tools/cmake/project.cmake:718 (idf_build_process)
+  CMakeLists.txt:8 (project)
+
+

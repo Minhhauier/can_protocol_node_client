@@ -1,0 +1,9 @@
+CMake Error at D:/ESP_IDF_5_4_2/frameworks/esp-idf-v5.4.2/tools/cmake/component.cmake:317 (message):
+  Include directory
+  'D:/Baitap/NCKH/Node_client/components/config_parameter/include' is not a
+  directory.
+Call Stack (most recent call first):
+  D:/ESP_IDF_5_4_2/frameworks/esp-idf-v5.4.2/tools/cmake/component.cmake:500 (__component_add_include_dirs)
+  components/config_parameter/CMakeLists.txt:1 (idf_component_register)
+
+
