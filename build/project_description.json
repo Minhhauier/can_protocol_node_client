@@ -1,7 +1,7 @@
 {
     "version":            "1.2",
     "project_name":       "main",
-    "project_version":    "4859f92",
+    "project_version":    "60d30ef-dirty",
     "project_path":       "D:/Baitap/NCKH/Node_client",
     "idf_path":           "D:/ESP_IDF_5_4_2/frameworks/esp-idf-v5.4.2",
     "build_dir":          "D:/Baitap/NCKH/Node_client/build",

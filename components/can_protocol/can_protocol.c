@@ -70,6 +70,15 @@ void isotp_send_message(IsoTpLink *link,const char *message, int len) {
     isotp_poll(link);
 }
 
+void create_queue_can_message() {
+    can_rx_queue = xQueueCreate(100, sizeof(twai_message_t));
+    if (can_rx_queue == NULL) {
+        ESP_LOGE(TAG, "Failed to create CAN RX queue");
+        return;
+    }
+    printf("create queue can message successfully\n");
+}
+
 void isotp_poll_task(void *arg) {
     bool detect_can_process = false;
     while (1) 

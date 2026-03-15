@@ -11,6 +11,7 @@ void app_main(void)
         ESP_LOGE("MAIN", "Failed to initialize CAN");
         return;
     }
+    create_queue_can_message();
     xTaskCreate(can_receive_task, "can_receive_task", 1024*4, NULL, 10, NULL);
     xTaskCreate(isotp_poll_task, "isotp_poll_task", 1024*4, NULL, 10, NULL);
     xTaskCreate(isotp_receive_task, "isotp_receive_task", 1024*4, NULL, 10, NULL);
