@@ -19,7 +19,8 @@ int isotp_user_send_can(const uint32_t arbitration_id,
         .self = 0,
         .dlc_non_comp = 0
     };
-    
+  //  printf("GỬI CHUỖI (%u bytes)\n", size);
+   // printf("Send: %s\n", data);
     memcpy(tx_msg.data, data, size);
     
     esp_err_t ret = twai_transmit(&tx_msg, pdMS_TO_TICKS(10));

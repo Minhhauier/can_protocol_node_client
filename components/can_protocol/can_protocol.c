@@ -4,9 +4,12 @@
 #include <string.h>
 #include <esp_log.h>
 #include <esp_err.h>
+#include <inttypes.h>
 
 #include "config_prameter.h"
 #include "isotp.h"
+#include "isotp_user.h"
+
 
 #define TAG "CAN_PROTOCOL"
 
@@ -32,7 +35,7 @@ esp_err_t twai_init_can(void){
             .sleep_allow_pd = 0,
         },
     };
-    twai_timing_config_t t_config = TWAI_TIMING_CONFIG_1MBITS();
+    twai_timing_config_t t_config = TWAI_TIMING_CONFIG_250KBITS();
     twai_filter_config_t f_config = TWAI_FILTER_CONFIG_ACCEPT_ALL();
 
     ESP_LOGI(TAG, "Installing TWAI driver on GPIO27(TX)/GPIO36(RX)...");
@@ -114,15 +117,23 @@ void read_queue_can_message(void *arg){
     while (1) {
         if (xQueueReceive(can_rx_queue, &rx_msg, pdMS_TO_TICKS(10)) == pdTRUE) {
             if (rx_msg.identifier == link.receive_arbitration_id) {
+                printf("Received message: %s\n", rx_msg.data);
                 isotp_on_can_message(&link, rx_msg.data, rx_msg.data_length_code);
             }
+            else{
+                printf("===============================\n");
+                ESP_LOGE(TAG, "Received message: %ld", rx_msg.identifier);
+                ESP_LOGE(TAG, "Received message: device: %d action: %d", rx_msg.data[0], rx_msg.data[1]);
+                printf("===============================\n");
+            }
+
         }
         // taskYIELD(); // Yield to allow other tasks to run
     }
 }
 
 void isotp_receive_task(void *arg) {
-    twai_message_t rx_msg;
+    //twai_message_t rx_msg;
     while (1) {
         int ret = isotp_receive(&link, (uint8_t *)buffer_can_rx, BUFFER_SIZE_CAN_RX, &app_len);
         if (ret == ISOTP_RET_OK) {
@@ -131,4 +142,17 @@ void isotp_receive_task(void *arg) {
         }
         vTaskDelay(pdMS_TO_TICKS(10)); // Yield to allow other tasks to run
     }
+}
+
+
+void send_temp_humi_message(float temp, float humi){
+    uint8_t data[8] = {0};
+    memcpy(&data[0], &temp, sizeof(float));
+    memcpy(&data[4], &humi, sizeof(float));
+    isotp_user_send_can(CAN_FRAME_ID_TEMP_HUMI, data, 8);
+}
+void send_gas_message(float gas){
+    uint8_t data[8] = {0};
+    memcpy(&data[0], &gas, sizeof(float));
+    isotp_user_send_can(CAN_FRAME_ID_GAS, data, 8);
 }

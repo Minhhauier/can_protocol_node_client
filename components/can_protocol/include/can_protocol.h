@@ -12,4 +12,6 @@ void can_receive_task(void *arg);
 void read_queue_can_message(void *arg);
 void isotp_receive_task(void *arg);
 void create_queue_can_message();
+void send_temp_humi_message(float temp, float humi);
+void send_gas_message(float gas);
 #endif
